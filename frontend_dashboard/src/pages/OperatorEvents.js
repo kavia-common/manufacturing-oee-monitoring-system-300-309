@@ -99,7 +99,7 @@ export function OperatorEventsPage() {
 
   return (
     <Layout title="Operator Events" subtitle="Log downtime, speed losses, quality issues and changeovers" status={rtStatus}>
-      <div className="grid gridCols2">
+      <div className="grid gridCols2 gridTop">
         <div className="card">
           <div className="cardHeader">
             <h3>Log a production event</h3>
@@ -207,7 +207,7 @@ export function OperatorEventsPage() {
           </div>
         </div>
 
-        <div className="card">
+        <div className="card cardScrollX">
           <div className="cardHeader">
             <h3>Event history</h3>
             <span>{events.length} latest</span>

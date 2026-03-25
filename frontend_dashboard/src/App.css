@@ -323,6 +323,17 @@ textarea {
   gap: 14px;
 }
 
+/* Utility: keep grid items aligned to the start (prevents awkward stretching) */
+.gridTop {
+  align-items: start;
+}
+
+/* Utility: allow horizontal scrolling inside cards when content (e.g., tables) is wider than container */
+.cardScrollX {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .gridCols4 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
