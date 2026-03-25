@@ -1,48 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import { AuthProvider } from "./state/AuthContext";
+import { DashboardPage } from "./pages/Dashboard";
+import { OperatorEventsPage } from "./pages/OperatorEvents";
+import { SupervisorPage } from "./pages/Supervisor";
+import { ManagerPage } from "./pages/Manager";
+import { SettingsPage } from "./pages/Settings";
+import { RoleRoute } from "./components/RoleRoute";
 
 // PUBLIC_INTERFACE
 function App() {
-  const [theme, setTheme] = useState('light');
-
-  // Effect to apply theme to document element
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
-
-  // PUBLIC_INTERFACE
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
-  };
-
+  /** Application entry with routing + role-based navigation. */
   return (
-    <div className="App">
-      <header className="App-header">
-        <button 
-          className="theme-toggle" 
-          onClick={toggleTheme}
-          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-        >
-          {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
-        </button>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          Current theme: <strong>{theme}</strong>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/events" element={<OperatorEventsPage />} />
+          <Route
+            path="/supervisor"
+            element={
+              <RoleRoute allow={["supervisor", "manager"]}>
+                <SupervisorPage />
+              </RoleRoute>
+            }
+          />
+          <Route
+            path="/manager"
+            element={
+              <RoleRoute allow={["manager"]}>
+                <ManagerPage />
+              </RoleRoute>
+            }
+          />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="*" element={<DashboardPage />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
